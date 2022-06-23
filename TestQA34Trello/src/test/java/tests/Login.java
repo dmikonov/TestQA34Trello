@@ -1,21 +1,33 @@
 package tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.By;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class Login {
-    WebDriver wd;
+public class Login extends TestBase {
 
-    @Test
-    public void login1(){
-        ChromeOptions chromeOptions = new ChromeOptions();
-        WebDriverManager.chromedriver().setup();
-        wd = new ChromeDriver();
-        System.setProperty("webdriver.chromedrivew", "C:/Tools/chromedriver.exe");
-        wd.navigate().to("https://trello.com/");
+    @BeforeMethod
+    public void preConditions(){
+        if(isLogged()){
+            logOut();
+        }
     }
 
+    public void logOut() {
+        click(By.cssSelector("[data-test-id = 'header-member-menu-button']"));
+        click(By.cssSelector("data-test-id = 'header-member-menu-logout'"));
+        click(By.cssSelector("[data-testid='logout-button]"));
+    }
+
+    public boolean isLogged() {
+        return  wd.findElements(By.cssSelector("[data-test-id = 'header-member-menu-button']")).size()>0;
+    }
+
+
+    @Test
+    public void login1() throws InterruptedException {
+        inItLogin();
+        fillInLoginForm();
+        submitLogin();
+    }
 }
