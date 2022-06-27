@@ -8,26 +8,15 @@ public class Login extends TestBase {
 
     @BeforeMethod
     public void preConditions(){
-        if(isLogged()){
-            logOut();
+        if(app.getUser().isLogged()){
+            app.getUser().logOut();
         }
     }
 
-    public void logOut() {
-        click(By.cssSelector("[data-test-id = 'header-member-menu-button']"));
-        click(By.cssSelector("data-test-id = 'header-member-menu-logout'"));
-        click(By.cssSelector("[data-testid='logout-button]"));
-    }
-
-    public boolean isLogged() {
-        return  wd.findElements(By.cssSelector("[data-test-id = 'header-member-menu-button']")).size()>0;
-    }
-
-
     @Test
-    public void login1() throws InterruptedException {
-        inItLogin();
-        fillInLoginForm();
-        submitLogin();
+    public void loginPositive() throws InterruptedException {
+        app.getUser().inItLogin();
+        app.getUser().fillInLoginForm();
+        app.getUser().submitLogin();
     }
 }
